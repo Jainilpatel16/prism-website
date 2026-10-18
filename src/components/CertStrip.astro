@@ -1,0 +1,54 @@
+---
+import { certifications } from '../data/site';
+
+interface Props {
+  variant?: 'strip' | 'grid';
+}
+const { variant = 'strip' } = Astro.props;
+const highlight = ['WHO-GMP', 'USP · EP', 'BP · IP', 'GLP', 'ISO 9001:2015', 'ISO 14001:2015', 'ISO 45001:2018', 'Halal', 'Kosher'];
+---
+
+{
+  variant === 'strip' ? (
+    <section class="cert-strip" aria-label="Certifications and quality credentials">
+      <div class="container">
+        <p class="label">Certified quality, trusted worldwide</p>
+        <ul>
+          {certifications
+            .filter((c) => highlight.includes(c.code))
+            .map((c) => (
+              <li title={c.name} class:list={{ key: c.group !== 'iso' && c.group !== 'other' }}>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5l2.2 1.6 2.7-.1.8 2.6 2.2 1.6-.9 2.6.9 2.6-2.2 1.6-.8 2.6-2.7-.1L10 18.5l-2.2-1.6-2.7.1-.8-2.6-2.2-1.6.9-2.6-.9-2.6 2.2-1.6.8-2.6 2.7.1z" /><path d="M6.8 10.2l2.2 2.2 4.3-4.6" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span>{c.code}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </section>
+  ) : (
+    <ul class="cert-grid">
+      {certifications.map((c) => (
+        <li>
+          <strong>{c.code}</strong>
+          <span>{c.name}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .cert-strip { padding: 28px 0 32px; border-bottom: 1px solid var(--line-soft); }
+  .label { text-align: center; font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+  .cert-strip ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .cert-strip li { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px 8px 10px; border-radius: 980px; background: var(--bg-alt); font-size: 0.875rem; font-weight: 600; color: var(--text); white-space: nowrap; }
+  .cert-strip li.key { background: rgba(0, 113, 227, 0.08); color: #0058b0; }
+  .cert-strip svg { width: 18px; height: 18px; fill: var(--muted); flex: none; }
+  .cert-strip li.key svg { fill: var(--accent); }
+
+  .cert-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 800px) { .cert-grid { grid-template-columns: repeat(4, 1fr); } }
+  .cert-grid li { background: var(--bg); border-radius: var(--radius-sm); padding: 18px; display: grid; gap: 4px; border: 1px solid var(--line-soft); }
+  .cert-grid strong { font-size: 1.05rem; letter-spacing: -0.015em; color: var(--text); }
+  .cert-grid span { font-size: 0.85rem; color: var(--muted); line-height: 1.35; }
+</style>

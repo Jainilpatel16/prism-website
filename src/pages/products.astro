@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { productCategories, categoryOrder } from '../data/site';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const groups = categoryOrder.map((cat) => ({ cat, info: productCategories[cat], items: products.filter((p) => p.data.category === cat) }));
+---
+
+<Base
+  title="All API Bulk Drugs"
+  description="Prism Industries' full range of API bulk drugs: Quinine Sulphate, Quinidine, Cinchonine, Hyoscine Butylbromide, Artemether, Lumefantrine and pharmaceutical Nicotine to USP, EP, BP and IP — with COA and MSDS."
+>
+  <PageHero
+    eyebrow="Products"
+    title="All API Bulk Drugs."
+    lead="High-quality Active Pharmaceutical Ingredients and bulk drugs, manufactured for purity, consistency and regulatory compliance to global pharmacopoeial standards."
+    crumbs={[{ label: 'Products' }]}
+  >
+    <div class="filters" role="toolbar" aria-label="Filter products">
+      <label class="search">
+        <span class="sr-only">Search products</span>
+        <input class="input" type="search" placeholder="Search by name, grade or CAS" id="product-search" />
+      </label>
+      <div class="chips">
+        <button class="chip active" data-filter="all" aria-pressed="true">All</button>
+        {categoryOrder.map((c) => <button class="chip" data-filter={c} aria-pressed="false">{productCategories[c].short}</button>)}
+      </div>
+    </div>
+  </PageHero>
+
+  <section class="section-tight alt">
+    <div class="container">
+      {
+        groups.map((g) => (
+          <div class="group" data-group={g.cat}>
+            <div class="group-head">
+              <h2>{g.info.name}</h2>
+              <p class="muted">{g.info.blurb}</p>
+            </div>
+            <div class="grid grid-3">
+              {g.items.map((p) => (
+                <div class="item" data-search={`${p.data.title} ${p.data.grade ?? ''} ${p.data.cas ?? ''}`.toLowerCase()}>
+                  <ProductCard product={p} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+      <p class="empty muted center" hidden>No products match your search. <a href="#" id="reset">Clear filters</a></p>
+    </div>
+  </section>
+
+  <ContactCTA title="Can’t find the API you need?" text="We offer custom synthesis and contract manufacturing. Tell us the molecule, grade and volume — we’ll get back within one business day." />
+</Base>
+
+<style>
+  .filters { margin-top: 32px; display: grid; gap: 14px; justify-items: center; }
+  .search { width: 100%; max-width: 440px; }
+  .search .input { border-radius: 980px; padding-left: 20px; background: var(--bg-alt); border-color: transparent; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .chip { font: 500 0.9rem/1 var(--font); padding: 10px 16px; border-radius: 980px; border: 1px solid var(--line); background: var(--bg); color: var(--text-2); cursor: pointer; min-height: 40px; }
+  .chip:hover { border-color: var(--text-2); }
+  .chip.active { background: var(--text); color: #fff; border-color: var(--text); }
+  .group + .group { margin-top: clamp(48px, 7vw, 80px); }
+  .group-head { margin-bottom: 24px; max-width: 760px; }
+  .group-head h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+  .item { display: flex; }
+  .item > :global(*) { flex: 1; }
+</style>
+
+<script>
+  const search = document.getElementById('product-search') as HTMLInputElement;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-group]')];
+  const empty = document.querySelector<HTMLElement>('.empty')!;
+  let cat = 'all';
+
+  function apply() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    groups.forEach((g) => {
+      let n = 0;
+      g.querySelectorAll<HTMLElement>('.item').forEach((it) => {
+        const ok = (cat === 'all' || g.dataset.group === cat) && (!q || it.dataset.search!.includes(q));
+        it.hidden = !ok;
+        if (ok) n++;
+      });
+      g.hidden = n === 0;
+      shown += n;
+    });
+    empty.hidden = shown > 0;
+  }
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      cat = c.dataset.filter!;
+      chips.forEach((x) => {
+        x.classList.toggle('active', x === c);
+        x.setAttribute('aria-pressed', String(x === c));
+      });
+      apply();
+    }),
+  );
+  search.addEventListener('input', apply);
+  document.getElementById('reset')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    search.value = '';
+    chips[0].click();
+  });
+</script>

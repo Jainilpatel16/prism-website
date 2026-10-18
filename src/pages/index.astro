@@ -1,0 +1,227 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CertStrip from '../components/CertStrip.astro';
+import ProductCard from '../components/ProductCard.astro';
+import PostCard from '../components/PostCard.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { featuredProducts, testimonials, company } from '../data/site';
+import { url } from '../lib/url';
+
+const products = await getCollection('products');
+const featured = featuredProducts.map((id) => products.find((p) => p.id === id)!).filter(Boolean);
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const offerings = [
+  {
+    title: 'Raw Materials for Pharmaceutical Manufacturing',
+    text: 'Top-quality raw materials essential for pharmaceutical formulation and production.',
+    items: ['Active Pharmaceutical Ingredients (APIs)', 'Pharmaceutical-grade excipients', 'Solvents and carriers', 'Stabilizers and additives', 'Customizable ingredient blends'],
+  },
+  {
+    title: 'Custom / White Label Production',
+    text: 'Private-label pharmaceutical production to help you launch new brands or products with ease.',
+    items: ['Custom formula development', 'Packaging design and branding', 'Laboratory analysis and testing', 'Regulatory compliance services', 'Complete manufacturing solutions'],
+  },
+  {
+    title: 'Specialized Solvents and Carriers',
+    text: 'High-quality solvents and carriers tailored for pharmaceutical applications.',
+    items: ['Comprehensive documentation', 'Pharmaceutical-grade certification', 'USP / EP compliance', 'Customizable formats', 'Applications across therapeutic areas'],
+  },
+];
+
+const stats = [
+  { value: '1993', label: 'Manufacturing APIs since' },
+  { value: '42 acres', label: 'Site at Khambhat, Gujarat' },
+  { value: '45+', label: 'APIs & pharmacopoeial grades' },
+  { value: '5', label: 'Continents served' },
+];
+---
+
+<Base
+  title="API Pharmaceutical Company | Prism Industries Pvt. Ltd."
+  description="Prism Industries is a WHO-GMP certified API bulk drug and specialty chemical manufacturer in Khambhat, Gujarat, India — Quinine, Hyoscine, Artemether, Lumefantrine and Nicotine APIs to USP, EP, BP and IP."
+  image="/wp-content/uploads/2025/07/KVP_8583-scaled.jpg"
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <span class="eyebrow">Prism Industries Pvt. Ltd. · Since 1993</span>
+      <h1>Leader in API Bulk Drugs.</h1>
+      <p class="lead">
+        We manufacture Active Pharmaceutical Ingredients and specialty chemicals to USP, EP, BP and IP standards — from a
+        WHO-GMP certified plant in Khambhat, Gujarat, for pharmaceutical companies worldwide.
+      </p>
+      <div class="btn-row hero-ctas">
+        <a class="btn btn-primary" href={url('/products/')}>Explore our APIs</a>
+        <a class="btn btn-secondary" href={url('/contact-us/')}>Request a quote</a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-media">
+        <img
+          src={url('/wp-content/uploads/2025/07/KVP_8583-scaled.jpg')}
+          alt="The Prism Industries team outside the company's API manufacturing plant in Khambhat, Gujarat"
+          width="1800"
+          height="1197"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <CertStrip />
+
+  <!-- Intro + stats -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">API Pharmaceutical Manufacturing Company</span>
+        <h2>Pure APIs. Proven processes. Global supply.</h2>
+        <p class="lead">
+          A leading manufacturer and supplier of high-quality active pharmaceutical ingredients and related services —
+          along with laboratory, regulatory and private-label solutions. We specialise in pure APIs, raw materials for
+          pharmaceutical formulations and custom synthesis, and keep evolving our portfolio to meet the industry’s needs.
+        </p>
+      </div>
+      <ul class="stats">
+        {stats.map((s) => <li><strong>{s.value}</strong><span>{s.label}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Offerings -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">What we offer</span>
+        <h2>Everything your formulation needs.</h2>
+      </div>
+      <div class="grid grid-3">
+        {
+          offerings.map((o) => (
+            <div class="card offering">
+              <h3>{o.title}</h3>
+              <p class="muted">{o.text}</p>
+              <ul class="check-list">
+                {o.items.map((i) => <li>{i}</li>)}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+      <p class="center more"><a class="link-arrow" href={url('/services/')}>Explore our services</a></p>
+    </div>
+  </section>
+
+  <!-- Featured APIs -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">API Bulk Drugs</span>
+        <h2>Featured APIs.</h2>
+        <p class="lead">Antimalarials, antispasmodics and pharmaceutical nicotine — each supplied with COA, MSDS and full regulatory documentation.</p>
+      </div>
+      <div class="grid grid-3">
+        {featured.map((p) => <ProductCard product={p} showDocs={false} />)}
+      </div>
+      <p class="center more"><a class="btn btn-ghost" href={url('/products/')}>View all products</a></p>
+    </div>
+  </section>
+
+  <!-- QC Lab -->
+  <section class="section alt">
+    <div class="container split">
+      <div class="media qc-media">
+        <img src={url('/wp-content/uploads/2025/07/KVP_8778-scaled.jpg')} alt="Quality control laboratory at Prism Industries" loading="lazy" width="1800" height="1197" />
+      </div>
+      <div>
+        <span class="eyebrow">Quality Control</span>
+        <h2>A lab built for zero compromise.</h2>
+        <p class="lead">
+          Our laboratory is equipped to test every incoming raw material, packing material, in-process sample, finished
+          product and stability study sample.
+        </p>
+        <ul class="check-list">
+          <li>Separate areas for physico-chemical testing with instrumentation and microbiological testing</li>
+          <li>HPLC assay, impurity profiling and residual-solvent testing to pharmacopoeial methods</li>
+          <li>Every activity monitored by experienced, qualified analysts</li>
+          <li>COA, MSDS, stability data and DMF support for every batch</li>
+        </ul>
+        <a class="link-arrow" href={url('/about-us/')}>Read more about our quality systems</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Testimonials</span>
+        <h2>What our clients say.</h2>
+      </div>
+      <div class="grid grid-2">
+        {
+          testimonials.map((t) => (
+            <figure class="card quote">
+              <p class="headline">“{t.headline}”</p>
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                <span class="avatar" aria-hidden="true">{t.name.replace(/^(Dr\.|Mr\.|Ms\.)\s*/, '').split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>
+                <span><strong>{t.name}</strong><br /><span class="muted">{t.role}</span></span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Blogs and News</span>
+        <h2>Latest from Prism.</h2>
+      </div>
+      <div class="grid grid-3">
+        {posts.map((p) => <PostCard post={p} />)}
+      </div>
+      <p class="center more"><a class="link-arrow" href={url('/blog/')}>All articles</a></p>
+    </div>
+  </section>
+
+  <ContactCTA
+    title="Let’s collaborate."
+    text={`Discover reliable API supply with ${company.short}. Whether you need a quotation, samples or regulatory documents, our team is here to help.`}
+  />
+</Base>
+
+<style>
+  .hero { padding-top: clamp(56px, 9vw, 110px); text-align: center; overflow: hidden; }
+  .hero h1 { font-size: clamp(2.7rem, 8vw, 5.4rem); margin-bottom: 0.3em; }
+  .hero .lead { max-width: 760px; margin: 0 auto; }
+  .hero-ctas { justify-content: center; margin: 30px 0 clamp(40px, 6vw, 64px); }
+  .hero-media { border-radius: 28px; overflow: hidden; aspect-ratio: 16 / 8; background: var(--bg-alt); margin-bottom: clamp(32px, 5vw, 56px); }
+  .hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+  @media (max-width: 600px) { .hero-media { aspect-ratio: 4 / 3; border-radius: 20px; } }
+
+  .stats { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border-radius: var(--radius); overflow: hidden; }
+  @media (min-width: 800px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stats li { background: var(--bg); padding: 28px 20px; text-align: center; display: grid; gap: 4px; }
+  .stats strong { font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.03em; color: var(--text); }
+  .stats span { color: var(--muted); font-size: 0.9rem; }
+
+  .offering h3 { font-size: 1.25rem; }
+  .more { margin: 36px 0 0; }
+
+  .qc-media { aspect-ratio: 4 / 3; }
+
+  .quote { margin: 0; display: flex; flex-direction: column; }
+  .headline { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text); margin-bottom: 10px; }
+  .quote blockquote { margin: 0 0 22px; color: var(--text-2); }
+  .quote figcaption { margin-top: auto; display: flex; align-items: center; gap: 12px; font-size: 0.9rem; line-height: 1.35; }
+  .avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-content: center; background: linear-gradient(135deg, #e8f1fd, #d6e6fb); color: var(--accent); font-weight: 600; font-size: 0.9rem; flex: none; }
+</style>

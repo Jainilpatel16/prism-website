@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { blogCategories } from '../data/site';
+import { url, formatDate } from '../lib/url';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+const d = post.data;
+const cat = d.categories.find((c) => c !== 'uncategorized') ?? d.categories[0];
+---
+
+<a class="post" href={url(`/${post.id}/`)}>
+  <div class="thumb">
+    {d.image ? <img src={url(d.image)} alt={d.imageAlt ?? ''} loading="lazy" decoding="async" /> : <div class="ph" />}
+  </div>
+  <div class="body">
+    <div class="meta">
+      {cat && <span class="cat">{blogCategories[cat] ?? cat}</span>}
+      <time datetime={d.pubDate.toISOString()}>{formatDate(d.pubDate)}</time>
+    </div>
+    <h3>{d.title}</h3>
+    <p>{d.description}</p>
+  </div>
+</a>
+
+<style>
+  .post { display: flex; flex-direction: column; background: var(--bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); color: inherit; text-decoration: none; transition: box-shadow 0.25s, transform 0.25s; }
+  .post:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .thumb { aspect-ratio: 1.9 / 1; background: var(--bg-alt); overflow: hidden; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .post:hover .thumb img { transform: scale(1.03); }
+  .ph { width: 100%; height: 100%; background: linear-gradient(135deg, #eef3fb, #f5f5f7); }
+  .body { padding: 20px 22px 24px; }
+  .meta { display: flex; gap: 10px; font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; }
+  .cat { color: var(--accent); font-weight: 600; }
+  h3 { font-size: 1.12rem; line-height: 1.28; margin-bottom: 8px; }
+  p { font-size: 0.9rem; color: var(--muted); margin: 0; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+</style>

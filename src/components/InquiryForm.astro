@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import { productCategories, categoryOrder, company } from '../data/site';
+
+// Formspree endpoint. Set PUBLIC_FORMSPREE_ID in .env (locally) or as a GitHub Actions variable.
+const formId = import.meta.env.PUBLIC_FORMSPREE_ID || 'your-form-id';
+const action = `https://formspree.io/f/${formId}`;
+
+const products = (await getCollection('products')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<form class="inquiry" action={action} method="POST" data-configured={formId !== 'your-form-id' ? 'true' : 'false'}>
+  <input type="hidden" name="_subject" value="New website inquiry — Prism Industries" />
+  <div class="hp" aria-hidden="true">
+    <label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="f-name">Full name *</label>
+      <input class="input" id="f-name" name="name" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for="f-company">Company *</label>
+      <input class="input" id="f-company" name="company" autocomplete="organization" required />
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="f-email">Business email *</label>
+      <input class="input" id="f-email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for="f-phone">Phone</label>
+      <input class="input" id="f-phone" name="phone" type="tel" autocomplete="tel" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="f-country">Country *</label>
+      <input class="input" id="f-country" name="country" autocomplete="country-name" required />
+    </div>
+    <div class="field">
+      <label for="f-product">Product of interest</label>
+      <select class="select" id="f-product" name="product">
+        <option value="">Select a product (optional)</option>
+        {
+          categoryOrder.map((cat) => (
+            <optgroup label={productCategories[cat].name}>
+              {products
+                .filter((p) => p.data.category === cat)
+                .map((p) => (
+                  <option value={p.data.title} data-slug={p.id}>
+                    {p.data.title}
+                  </option>
+                ))}
+            </optgroup>
+          ))
+        }
+        <option value="Other / custom synthesis">Other / custom synthesis</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="f-qty">Estimated quantity</label>
+      <input class="input" id="f-qty" name="quantity" placeholder="e.g. 25 kg / month" />
+    </div>
+    <div class="field">
+      <label for="f-type">Inquiry type</label>
+      <select class="select" id="f-type" name="inquiry_type">
+        <option>Quotation</option>
+        <option>Samples</option>
+        <option>COA / MSDS / regulatory documents</option>
+        <option>Custom synthesis / white label</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+  <div class="field">
+    <label for="f-msg">Message *</label>
+    <textarea class="textarea" id="f-msg" name="message" required placeholder="Grade (USP / EP / BP / IP), specifications, destination market, timelines…"></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" type="submit">Send inquiry</button>
+    <p class="small muted">We reply within one business day. Prefer email? <a href={`mailto:${company.email}`}>{company.email}</a></p>
+  </div>
+  <p class="status" role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .inquiry { display: grid; gap: 18px; }
+  .row { display: grid; gap: 18px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .row { grid-template-columns: 1fr 1fr; } }
+  .hp { position: absolute; left: -9999px; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .actions p { margin: 0; }
+  .status { margin: 0; font-weight: 500; }
+  .status.ok { color: var(--ok); }
+  .status.err { color: #c9302c; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.inquiry').forEach((form) => {
+    // Pre-select a product when arriving from a product page (?product=slug)
+    const slug = new URLSearchParams(location.search).get('product');
+    if (slug) {
+      const opt = form.querySelector<HTMLOptionElement>(`option[data-slug="${CSS.escape(slug)}"]`);
+      if (opt) opt.selected = true;
+    }
+
+    const status = form.querySelector<HTMLElement>('.status')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (form.dataset.configured !== 'true') {
+        status.className = 'status err';
+        status.textContent = 'The inquiry form is not connected yet. Please email marketing@prisminltd.com.';
+        return;
+      }
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.className = 'status ok';
+        status.textContent = 'Thank you — your inquiry has been sent. Our team will be in touch shortly.';
+      } catch {
+        status.className = 'status err';
+        status.textContent = 'Sorry, something went wrong. Please email marketing@prisminltd.com or call 9227406992.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send inquiry';
+      }
+    });
+  });
+</script>

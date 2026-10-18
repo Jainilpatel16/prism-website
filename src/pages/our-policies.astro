@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { company } from '../data/site';
+import { url } from '../lib/url';
+
+const P = (y: string, f: string) => `/wp-content/uploads/${y}/${f}.pdf`;
+const groups = [
+  {
+    t: 'Governance & compliance',
+    items: [
+      ['Code of Conduct and Ethics Policy', P('2025/03', 'Code-of-Conduct-and-Ethics-Policy')],
+      ['Compliance with Regulations Policy', P('2025/03', 'Compliance-with-Regulations-Policy')],
+      ['Anti-Bribery and Corruption Policy', P('2025/03', 'Anti-Bribery-and-Corruption-Policy')],
+      ['Whistleblower Policy', P('2025/03', 'Whistleblower-Policy')],
+      ['Non-Disclosure Agreement (NDA) Policy', P('2025/03', 'Non-Disclosure-Agreement-NDA-Policy')],
+      ['Supplier and Vendor Policy', P('2025/03', 'Supplier-and-Vendor-Policy')],
+      ['Privacy and Data Protection Policy', P('2025/03', 'Privacy-and-Data-Protection-Policy')],
+      ['Cookies Policy', P('2025/03', 'Cookies-Policy')],
+    ],
+  },
+  {
+    t: 'Health, safety & environment',
+    items: [
+      ['Health and Safety Policy', P('2025/03', 'Health-and-Safety-Policy')],
+      ['Environmental, Social, Governance Policy', P('2025/03', 'Environmental-Social-Governance-Policy')],
+      ['Living and Working Conditions Policy', P('2025/04', 'Living-and-Working-Conditions-Policy')],
+      ['Training and Development Policy', P('2025/03', 'Training-and-Development-Policy')],
+    ],
+  },
+  {
+    t: 'People & human rights',
+    items: [
+      ['Operation and Human Rights Policy', P('2025/04', 'Operation-and-Human-Rights-Policy')],
+      ['Forced Labour and Human Trafficking Policy', P('2025/04', 'Forced-Labour-and-Human-Trafficking-Policy')],
+      ['Child Labour and Minimum Age Employment Policy', P('2025/04', 'Child-Labour-and-Minimum-Age-Employment-Policy')],
+      ['Equal Opportunity and Non-Discrimination Policy', P('2025/04', 'Equal-Opportunity-and-Non-Discrimination-Policy')],
+      ['Anti-Discrimination Policy', P('2025/04', 'Anti-Discrimination-Policy')],
+      ['Diversity, Equity, and Inclusion Policy', P('2025/04', 'Diversity-Equity-and-Inclusion-Policy')],
+      ['Decent Wages and Fair Compensation Policy', P('2025/04', 'Decent-Wages-and-Fair-Compensation-Policy')],
+      ['Decent Working Time Policy', P('2025/04', 'Decent-Working-Time-Policy')],
+      ['Cultural and Religious Holidays Policy', P('2025/04', 'Cultural-and-Religious-Holidays-Policy')],
+    ],
+  },
+];
+---
+
+<Base title="Our Policies" description="Prism Industries' corporate policies: code of conduct, anti-bribery, health and safety, ESG, human rights, and labour policies — available as PDF downloads.">
+  <PageHero eyebrow="Our Policies" title="Policies that guide how we work." lead="Our commitment to ethics, safety, human rights and the environment — documented and openly available." crumbs={[{ label: 'Company', href: '/company/' }, { label: 'Our Policies' }]} />
+
+  <section class="section-tight alt">
+    <div class="container">
+      <div class="grid grid-3">
+        {
+          groups.map((g) => (
+            <div class="card">
+              <h2 class="gt">{g.t}</h2>
+              <ul class="docs">
+                {g.items.map(([name, href]) => (
+                  <li><a href={url(href)} target="_blank" rel="noopener"><span>{name}</span><span class="pdf">PDF</span></a></li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="report tile">
+        <h2 class="gt">Report illegal or unethical activity</h2>
+        <p class="muted">If you become aware of any illegal trade activities at Prism Industries or in the surrounding area, or have suspicions about such activities, please report them immediately — by email to <a href={`mailto:${company.email}`}>{company.email}</a>, or by any other secure means that guarantees your anonymity and protection. See our <a href={url(P('2025/03', 'Whistleblower-Policy'))} target="_blank" rel="noopener">Whistleblower Policy</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .gt { font-size: 1.2rem; margin-bottom: 14px; }
+  .docs { list-style: none; margin: 0; padding: 0; }
+  .docs li + li { border-top: 1px solid var(--line-soft); }
+  .docs a { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px 0; color: var(--text-2); font-size: 0.95rem; text-decoration: none; }
+  .docs a:hover span:first-child { color: var(--accent); }
+  .pdf { flex: none; font-size: 0.7rem; font-weight: 700; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; }
+  .report { margin-top: 24px; background: var(--bg); }
+</style>

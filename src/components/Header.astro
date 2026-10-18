@@ -1,0 +1,117 @@
+---
+import { nav, company } from '../data/site';
+import { url } from '../lib/url';
+
+const path = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
+const isActive = (href: string, children?: { href: string }[]) =>
+  href === '/' ? path === '/' : path.startsWith(href) || !!children?.some((c) => path.startsWith(c.href));
+---
+
+<header class="site-header">
+  <nav class="nav container" aria-label="Main">
+    <a class="brand" href={url('/')} aria-label={`${company.name} home`}>
+      <img src={url('/wp-content/uploads/2024/12/cropped-favicon-192x192.png')} alt="" width="28" height="28" />
+      <span>Prism <span class="brand-sub">Industries</span></span>
+    </a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+
+    <ul class="nav-menu" id="nav-menu">
+      {
+        nav.map((item) => (
+          <li class={item.children ? 'has-sub' : ''}>
+            <a href={url(item.href)} class:list={{ active: isActive(item.href, item.children) }} aria-haspopup={item.children ? 'true' : undefined}>
+              {item.label}
+            </a>
+            {item.children && (
+              <ul class="sub">
+                {item.children.map((c) => (
+                  <li>
+                    <a href={url(c.href)}>{c.label}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+      <li class="nav-cta"><a class="btn btn-primary btn-sm" href={url('/contact-us/')}>Contact Us</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; }
+  /* Translucent blur lives on a pseudo-element: backdrop-filter on the header itself
+     would become the containing block for the fixed mobile menu sheet. */
+  .site-header::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .nav { height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 9px; color: var(--text); font-weight: 600; font-size: 1.05rem; letter-spacing: -0.02em; text-decoration: none; }
+  .brand img { border-radius: 6px; }
+  .brand-sub { color: var(--muted); font-weight: 500; }
+
+  .nav-menu { list-style: none; margin: 0; padding: 0; }
+  .nav-menu a { color: var(--text); text-decoration: none; }
+
+  .menu-toggle { display: inline-grid; place-content: center; gap: 6px; width: 44px; height: 44px; margin-right: -10px; background: none; border: 0; cursor: pointer; }
+  .menu-toggle span { display: block; width: 18px; height: 1.5px; background: var(--text); transition: transform 0.25s; }
+  .menu-toggle[aria-expanded='true'] span:first-child { transform: translateY(3.75px) rotate(45deg); }
+  .menu-toggle[aria-expanded='true'] span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+
+  /* Mobile: full-screen sheet */
+  @media (max-width: 899px) {
+    .nav-menu {
+      position: fixed; inset: var(--nav-h) 0 0 0; background: #fff;
+      padding: 12px var(--gutter) 40px; overflow-y: auto;
+      opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+    }
+    .nav-menu.open { opacity: 1; visibility: visible; transform: none; }
+    .nav-menu > li > a { display: block; padding: 14px 0; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; border-bottom: 1px solid var(--line-soft); }
+    .sub { list-style: none; padding: 4px 0 10px 2px; margin: 0; }
+    .sub a { display: block; padding: 8px 0; color: var(--muted); font-size: 1.05rem; }
+    .nav-cta { margin-top: 24px; }
+    .nav-cta .btn { width: 100%; min-height: 48px; font-size: 1.05rem; }
+  }
+
+  /* Desktop */
+  @media (min-width: 900px) {
+    .menu-toggle { display: none; }
+    .nav-menu { display: flex; align-items: center; gap: 4px; }
+    .nav-menu > li { position: relative; }
+    .nav-menu > li > a { display: block; padding: 8px 12px; font-size: 0.875rem; color: var(--text-2); border-radius: 8px; transition: color 0.2s; }
+    .nav-menu > li > a:hover, .nav-menu > li > a.active { color: var(--text); }
+    .nav-menu > li > a.active { font-weight: 500; }
+    .has-sub > a::after { content: ''; display: inline-block; width: 6px; height: 6px; margin-left: 6px; border-right: 1.3px solid currentColor; border-bottom: 1.3px solid currentColor; transform: translateY(-2px) rotate(45deg); opacity: 0.6; }
+    .sub {
+      position: absolute; top: 100%; left: 50%; min-width: 240px; list-style: none; margin: 0; padding: 8px;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 14px; box-shadow: var(--shadow-hover);
+      opacity: 0; visibility: hidden; transform: translate(-50%, 6px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    }
+    .has-sub:hover .sub, .has-sub:focus-within .sub { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+    .sub a { display: block; padding: 9px 12px; font-size: 0.875rem; border-radius: 8px; color: var(--text-2); }
+    .sub a:hover { background: var(--bg-alt); color: var(--text); }
+    .nav-cta { margin-left: 10px; }
+    .nav-cta .btn { color: #fff; }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.getElementById('nav-menu');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu?.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+</script>

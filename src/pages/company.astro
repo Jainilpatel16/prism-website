@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CertStrip from '../components/CertStrip.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const directors = [
+  { name: 'Mr. Vishnu Patel', role: 'Director', img: '/wp-content/uploads/2025/03/Screenshot-2025-03-12-at-5.26.06-AM-Photoroom.png' },
+  { name: 'Mr. Chandrakant Patel', role: 'Director', img: '/wp-content/uploads/2025/03/Screenshot-2025-03-12-at-5.25.45-AM-Photoroom.png' },
+  { name: 'Ms. Nancy C Patel', role: 'Director', img: '/wp-content/uploads/2025/06/WhatsApp_Image_2025-06-09_at_05.25.59-removebg-preview.png' },
+];
+const clients = ['gracure', 'centurion', 'bdh', 'baroque', 'sun-pharma', 'lpl', 'pil', 'laborat', 'globe'];
+const processes = ['Hydrogenation', 'Reduction', 'Nitration', 'Sulphonation', 'Chlorination', 'Extraction'];
+---
+
+<Base title="Our Company" description="Prism Industries Pvt. Ltd. — a WHO-GMP and GLP certified API manufacturer in Khambhat, Gujarat since 1993, with a 42-acre site, dedicated plants per product and in-house R&D and QC.">
+  <PageHero
+    eyebrow="Our Company"
+    title="Quality designed for excellence."
+    lead="Prism Industries is a fast-growing, privately owned company based in Khambhat, Gujarat since 1993, manufacturing and exporting selected Active Pharmaceutical Ingredients and pharmaceutical intermediates."
+    crumbs={[{ label: 'Company' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="hero-img media"><img src={url('/wp-content/uploads/2025/07/KVP_8790-scaled.jpg')} alt="Prism Industries Pvt. Ltd. plant entrance at Kalamsar, Khambhat" /></div>
+    </div>
+  </section>
+
+  <CertStrip />
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Facilities</span>
+        <h2>42 acres. Dedicated plants. Global standards.</h2>
+        <p class="lead">Our well-developed facility at Village Kalamsar, Tal. Khambhat, Dist. Anand, Gujarat spans 42 acres — 10.42 acres of which are dedicated to the production of APIs and intermediates.</p>
+        <p>We have a dedicated plant for each product, built to global standards and equipped with a wide range of specialised equipment. Manufacturing follows the Total Quality Management (TQM) concept with environmentally friendly processes that adhere to cGMP. We have the technical, regulatory and synthesis capabilities for high-value, low-volume molecules, supported by in-house QC and R&amp;D.</p>
+        <p>Prism is accredited with WHO-GMP and GLP certification, Written Confirmation, FSSAI, ISO certifications, and Kosher and Halal certification.</p>
+      </div>
+      <div class="media tall"><img src={url('/wp-content/uploads/2025/07/KVP_8676-scaled.jpg')} alt="Prism Industries directors at a reactor in the manufacturing plant" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="grid grid-3">
+        <div class="card">
+          <span class="big">27+ years</span>
+          <h3>Experience</h3>
+          <p class="muted">Founded in 1993, Prism manufactures, supplies, exports and imports pharmaceutical intermediates and APIs with a mission to provide value-added goods.</p>
+        </div>
+        <div class="card">
+          <span class="big">6 core processes</span>
+          <h3>Modern infrastructure</h3>
+          <p class="muted">Our reaction and production facilities handle {processes.join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p>
+        </div>
+        <div class="card">
+          <span class="big">~200 people</span>
+          <h3>Professional team</h3>
+          <p class="muted">R&amp;D drives the development and scale-up of Quinine, Hyoscine and Nicotine derivatives, supported by a well-equipped QC laboratory and skilled technical staff.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Leadership</span><h2>Our directors.</h2></div>
+      <div class="grid grid-3">
+        {
+          directors.map((d) => (
+            <figure class="director">
+              <div class="photo"><img src={url(d.img)} alt={d.name} loading="lazy" /></div>
+              <figcaption><strong>{d.name}</strong><span>{d.role}, Prism Industries Pvt. Ltd.</span></figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Clients</span>
+        <h2>Trusted by leading pharma companies.</h2>
+        <p class="lead">Today Prism is a force to reckon with in domestic and export markets, fulfilling the requirements of some of the largest and most reputed companies in the world.</p>
+      </div>
+      <ul class="clients">
+        {clients.map((c) => <li><img src={url(`/wp-content/uploads/2024/12/${c}.jpg`)} alt={`${c.replace('-', ' ')} logo`} loading="lazy" /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <ContactCTA />
+</Base>
+
+<style>
+  .hero-img { aspect-ratio: 16 / 7; }
+  @media (max-width: 600px) { .hero-img { aspect-ratio: 4 / 3; } }
+  .media.tall { aspect-ratio: 4 / 3; }
+  .big { display: block; font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; color: var(--accent); margin-bottom: 10px; }
+  .director { margin: 0; text-align: center; }
+  .photo { aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: linear-gradient(180deg, #f5f5f7, #e8e8ed); margin-bottom: 16px; }
+  .photo img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
+  .director figcaption { display: grid; gap: 2px; }
+  .director strong { font-size: 1.15rem; color: var(--text); }
+  .director span { color: var(--muted); font-size: 0.9rem; }
+  .clients { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (min-width: 800px) { .clients { grid-template-columns: repeat(5, 1fr); } }
+  .clients li { background: var(--bg); border-radius: var(--radius-sm); padding: 18px; display: grid; place-content: center; aspect-ratio: 3 / 2; }
+  .clients img { max-height: 64px; width: auto; object-fit: contain; filter: grayscale(1); opacity: 0.8; transition: filter 0.2s, opacity 0.2s; }
+  .clients li:hover img { filter: none; opacity: 1; }
+</style>

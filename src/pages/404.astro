@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+---
+
+<Base title="Page not found" noindex>
+  <section class="section center">
+    <div class="container container-narrow">
+      <span class="eyebrow">404</span>
+      <h1>We couldn’t find that page.</h1>
+      <p class="lead">The page may have moved. Try our products or blog, or get in touch.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn-primary" href={url('/')}>Go home</a>
+        <a class="btn btn-secondary" href={url('/products/')}>Products</a>
+        <a class="btn btn-ghost" href={url('/contact-us/')}>Contact us</a>
+      </div>
+    </div>
+  </section>
+</Base>

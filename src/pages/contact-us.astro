@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import { company, contacts } from '../data/site';
+---
+
+<Base title="Contact Us" description="Contact Prism Industries for API quotations, samples and regulatory documents. Call 9227406992 or email marketing@prisminltd.com. Factory: Kalamsar, Khambhat, Gujarat, India.">
+  <PageHero eyebrow="Contact" title="Sound interesting? Let’s connect." lead="Want to know more about Prism Industries? Fill out the form below or reach our team directly — we’ll get back within one business day." crumbs={[{ label: 'Contact Us' }]} />
+
+  <section class="section-tight">
+    <div class="container layout">
+      <div class="form-card">
+        <h2>Send an inquiry</h2>
+        <InquiryForm />
+      </div>
+
+      <aside class="info">
+        <div class="tile">
+          <h3>Sales</h3>
+          <p><a class="big" href={`mailto:${company.email}`}>{company.email}</a></p>
+          <p><a class="big" href={`tel:${company.phoneIntl}`}>+91 {company.phone}</a></p>
+        </div>
+        <div class="tile">
+          <h3>{company.factory.label} address</h3>
+          <address>{company.factory.lines.map((l) => <>{l}<br /></>)}</address>
+          <a class="link-arrow" href={company.factory.map} target="_blank" rel="noopener">Open in Maps</a>
+        </div>
+        <div class="tile">
+          <h3>{company.office.label} address</h3>
+          <address>{company.office.lines.map((l) => <>{l}<br /></>)}</address>
+          <p class="phones">Office: {company.officePhones.map((p, i) => <>{i > 0 && ' · '}<a href={`tel:${p.replace(/-/g, '')}`}>{p}</a></>)}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section-tight alt">
+    <div class="container">
+      <h2 class="ph">Our team</h2>
+      <div class="grid grid-3">
+        {
+          contacts.map((c) => (
+            <div class="card person">
+              <strong>{c.name}</strong>
+              <span class="muted">{c.role}</span>
+              <a href={`mailto:${c.email}`}>{c.email}</a>
+              <a href={`tel:${c.phone}`}>{c.phone}</a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout { display: grid; gap: 32px; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 960px) { .layout { grid-template-columns: 1.6fr 1fr; gap: 48px; } }
+  .form-card { background: var(--bg); border-radius: 24px; padding: clamp(24px, 4vw, 40px); box-shadow: var(--shadow); }
+  .form-card h2 { font-size: 1.6rem; margin-bottom: 24px; }
+  .info { display: grid; gap: 16px; }
+  .info h3 { font-size: 0.95rem; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+  .info p { margin: 0 0 4px; }
+  .big { font-size: 1.15rem; font-weight: 600; }
+  address { font-style: normal; color: var(--text-2); margin-bottom: 10px; }
+  .phones { margin-top: 6px !important; color: var(--muted); font-size: 0.92rem; }
+  .ph { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 24px; }
+  .person { display: grid; gap: 4px; }
+  .person strong { font-size: 1.1rem; }
+</style>

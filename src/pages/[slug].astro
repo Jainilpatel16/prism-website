@@ -1,0 +1,94 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { blogCategories, company } from '../data/site';
+import { url, formatDate } from '../lib/url';
+
+// Blog posts live at the site root (e.g. /who-gmp-certification-guide/) to keep the original WordPress URLs.
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((p) => ({ params: { slug: p.id }, props: { post: p, all: posts } }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  all: CollectionEntry<'blog'>[];
+}
+const { post, all } = Astro.props;
+const d = post.data;
+const { Content } = await render(post);
+const related = all
+  .filter((p) => p.id !== post.id && p.data.categories.some((c) => d.categories.includes(c) && c !== 'uncategorized'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+const cats = d.categories.filter((c) => c !== 'uncategorized');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.pubDate.toISOString(),
+  dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
+  author: { '@type': 'Organization', name: company.name },
+  publisher: { '@type': 'Organization', name: company.name },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+  ...(d.image ? { image: new URL(url(d.image), Astro.site).href } : {}),
+};
+---
+
+<Base title={d.title} description={d.description} image={d.image} type="article" publishedTime={d.pubDate} modifiedTime={d.updatedDate} jsonLd={jsonLd}>
+  <article>
+    <header class="post-head">
+      <div class="container container-narrow">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href={url('/')}>Home</a><span aria-hidden="true">›</span><a href={url('/blog/')}>Blog</a>
+        </nav>
+        <div class="meta">
+          {cats.map((c) => <a href={url(`/category/${c}/`)}>{blogCategories[c] ?? c}</a>)}
+          <time datetime={d.pubDate.toISOString()}>{formatDate(d.pubDate)}</time>
+        </div>
+        <h1>{d.title}</h1>
+        <p class="lead">{d.description}</p>
+      </div>
+      {
+        d.image && (
+          <div class="container">
+            <div class="cover">
+              <img src={url(d.image)} alt={d.imageAlt ?? ''} fetchpriority="high" />
+            </div>
+          </div>
+        )
+      }
+    </header>
+    <div class="container container-narrow">
+      <div class="prose body"><Content /></div>
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="section-tight alt">
+        <div class="container">
+          <h2 class="rel">Related articles</h2>
+          <div class="grid grid-3">{related.map((p) => <PostCard post={p} />)}</div>
+        </div>
+      </section>
+    )
+  }
+  <ContactCTA />
+</Base>
+
+<style>
+  .post-head { padding-top: clamp(40px, 7vw, 80px); }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; color: var(--muted); margin-bottom: 14px; }
+  .meta a { font-weight: 600; }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+  .lead { font-size: 1.2rem; }
+  .cover { max-width: 980px; margin: 36px auto 0; border-radius: var(--radius); overflow: hidden; background: var(--bg-alt); }
+  .cover img { width: 100%; }
+  .body { padding: clamp(36px, 6vw, 56px) 0 clamp(56px, 8vw, 96px); }
+  .rel { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 24px; }
+</style>

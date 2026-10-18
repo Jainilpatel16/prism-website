@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const pillars = [
+  { l: 'S', t: 'Sustainability', d: 'Renewable energy, waste minimisation and water conservation across our nicotine production.' },
+  { l: 'T', t: 'Traceability', d: 'Every batch carries a unique identity, tracked from responsibly grown tobacco to finished API.' },
+  { l: 'I', t: 'Integrity', d: 'Ethical sourcing and fair-trade partnerships with farmers and suppliers.' },
+  { l: 'C', t: 'Compliance', d: 'Products that meet international pharmacopoeial, safety and environmental standards.' },
+];
+const initiatives = [
+  { t: 'Eco-friendly sourcing of raw materials', d: 'The tobacco from which we extract nicotine comes from farms that are responsibly grown and harvested — using fewer pesticides, conserving soil and following humane labour practices.' },
+  { t: 'Energy-efficient manufacturing', d: 'Our production units use renewable energy sources and advanced processing technologies that reduce our carbon footprint while guaranteeing top-quality product.' },
+  { t: 'Waste minimisation and recycling', d: 'A strong waste-management policy with recycling programmes and proper disposal of chemical by-products so they never contaminate the environment.' },
+  { t: 'Water conservation', d: 'Nicotine extraction and purification use substantial water. Advanced filtration and recycling conserve water and reduce wastewater discharge.' },
+];
+const benefits = [
+  ['Minimised environmental footprint', 'Our approach substantially reduces carbon emissions, energy usage and waste output.'],
+  ['High-purity product', 'Sustainable methods deliver pure, safe pharmaceutical-grade nicotine without compromising efficiency.'],
+  ['Ethical business practices', 'We work with farmers and suppliers who maintain ethical and fair-trade requirements.'],
+  ['Environmental compliance', 'Our nicotine products meet international safety and sustainability standards.'],
+];
+---
+
+<Base title="STIC Nicotine — Sustainable Nicotine Manufacturing" description="STIC — Sustainability, Traceability, Integrity and Compliance. How Prism Industries manufactures high-purity pharmaceutical nicotine responsibly.">
+  <PageHero
+    eyebrow="STIC Nicotine"
+    title="Sustainability, Traceability, Integrity and Compliance."
+    lead="Prism’s commitment to sustainable nicotine manufacturing: high-purity pharmaceutical nicotine produced with a reduced carbon footprint, responsible sourcing and state-of-the-art production techniques."
+    crumbs={[{ label: 'Nicotine', href: '/nicotine/' }, { label: 'STIC Nicotine' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="grid grid-4 pillars">
+        {pillars.map((p) => <div class="tile"><span class="letter">{p.l}</span><h3>{p.t}</h3><p class="muted">{p.d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Definition</span>
+        <h2>What sustainable nicotine manufacturing means.</h2>
+        <p class="lead">Producing nicotine without degrading the environment — reducing carbon emissions, harnessing renewable energy and managing waste in a way that protects natural resources.</p>
+        <p>At Prism, we endorse these principles as we manufacture high-purity nicotine while maintaining ecological balance.</p>
+      </div>
+      <div class="media"><img src={url('/wp-content/uploads/2024/12/NICGENs-Commitment.jpg')} alt="Prism's commitment to sustainable nicotine manufacturing" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Key initiatives</span><h2>Our sustainability initiatives.</h2></div>
+      <div class="grid grid-2">
+        {initiatives.map((i, n) => <div class="card"><span class="num">0{n + 1}</span><h3>{i.t}</h3><p class="muted">{i.d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split reverse">
+      <div>
+        <span class="eyebrow">Our process</span>
+        <h2>Our sustainable nicotine production process.</h2>
+        <p class="lead">A highly efficient process that minimises environmental harm and ensures safety for patients and the planet.</p>
+        <ul class="check-list">
+          <li><strong>Minimise waste</strong> — advanced waste-reduction techniques; unavoidable waste is recycled or repurposed.</li>
+          <li><strong>Energy efficiency</strong> — energy-efficient systems and continued investment in renewables.</li>
+          <li><strong>Water conservation</strong> — systems that reduce water usage and use every drop responsibly.</li>
+          <li><strong>Green chemistry R&amp;D</strong> — bio-based solvents and energy-efficient extraction methods.</li>
+        </ul>
+      </div>
+      <div class="media"><img src={url('/wp-content/uploads/2024/12/factory-producing.jpg')} alt="Nicotine production facility" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Benefits</span><h2>Why it matters to our customers.</h2></div>
+      <div class="grid grid-4">
+        {benefits.map(([t, d]) => <div class="tile"><h3>{t}</h3><p class="muted">{d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA title="Join us in creating a sustainable future." text="Learn more about our nicotine APIs and how we can support your formulations responsibly." />
+</Base>
+
+<style>
+  .letter { display: inline-grid; place-content: center; width: 48px; height: 48px; border-radius: 14px; background: var(--accent); color: #fff; font-weight: 700; font-size: 1.4rem; margin-bottom: 16px; }
+  .pillars h3 { font-size: 1.15rem; }
+  .num { display: block; font-size: 0.9rem; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+  .tile h3 { font-size: 1.1rem; }
+  .media { aspect-ratio: 4 / 3; }
+  @media (max-width: 699px) { .grid-4 { grid-template-columns: 1fr; } }
+</style>

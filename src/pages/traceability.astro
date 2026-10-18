@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const pillars = [
+  ['End-to-end transparency', 'Complete visibility from raw-material procurement to final delivery. Each batch is assigned a unique identification code for real-time tracking and detailed documentation.'],
+  ['Quality assurance integration', 'We record every step of production — raw-material sourcing, manufacturing conditions and QC checks — so each API meets the highest standards of quality and compliance.'],
+  ['Regulatory alignment', 'Our system complies with global standards including cGMP and ISO, with comprehensive records readily available to regulators and stakeholders.'],
+  ['Customer confidence', 'Clients can trust the reliability and authenticity of every product — the foundation of long-term partnerships.'],
+];
+const why = [
+  ['Quality assurance', 'Strict quality controls at every step ensure only products meeting our standards reach the market.'],
+  ['Regulatory compliance', 'Clear documentation and evidence to meet GMP and international pharmaceutical regulations.'],
+  ['Efficient recall management', 'Precise identification of affected batches allows swift, targeted action without disrupting supply.'],
+  ['Ethical sourcing', 'Raw materials come from verified, ethical and sustainable sources.'],
+  ['Trust and transparency', 'Detailed information about product origins gives partners confidence in our ingredients.'],
+];
+const features = [
+  ['End-to-end visibility', 'Every stage is tracked, from raw-material sourcing to delivery of finished APIs.'],
+  ['Unique batch identification', 'Each production batch has a unique code and a detailed history through manufacturing and distribution.'],
+  ['Real-time monitoring', 'Digital data capture allows swift identification and resolution of any process deviation.'],
+  ['Comprehensive record-keeping', 'Centralised documentation of raw materials, production parameters, quality checks and distribution.'],
+  ['Regulatory compliance', 'Aligned with cGMP and ISO, facilitating transparent audits.'],
+  ['Enhanced quality assurance', 'Traceability integrated with QA ensures only safe, high-quality product reaches clients.'],
+];
+---
+
+<Base title="Traceability" description="End-to-end traceability at Prism Industries: unique batch identification, real-time monitoring and cGMP/ISO-aligned record-keeping for every API we manufacture.">
+  <PageHero
+    eyebrow="Traceability"
+    title="Every batch. Every step. On record."
+    lead="Traceability lies at the heart of our operations. We maintain meticulous records and transparency throughout our manufacturing and supply chain — ensuring quality, compliance and trust in every step."
+    crumbs={[{ label: 'Nicotine', href: '/nicotine/' }, { label: 'Traceability' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">What is traceability?</span>
+        <h2>The complete history of every product.</h2>
+        <p class="lead">Traceability is the ability to track the journey of a product and its components across every stage — from sourcing raw materials to manufacturing, packaging and distribution.</p>
+        <p>It provides a complete history of each product, ensuring safety, quality and compliance with global standards. At Prism Industries, traceability isn’t just a process — it’s our promise to deliver safe, high-quality APIs.</p>
+      </div>
+      <div class="media"><img src={url('/wp-content/uploads/2024/12/Measuring-Our.jpg')} alt="Batch traceability in API manufacturing" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="grid grid-2">
+        {pillars.map(([t, d]) => <div class="card"><h3>{t}</h3><p class="muted">{d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Why it matters</span><h2>Why traceability is important.</h2></div>
+      <div class="grid grid-3">
+        {why.map(([t, d]) => <div class="tile"><h3>{t}</h3><p class="muted">{d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Our system</span><h2>Key features of our traceability system.</h2></div>
+      <ol class="steps">
+        {features.map(([t, d]) => <li><h3>{t}</h3><p class="muted">{d}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <ContactCTA title="Need batch documentation?" text="Request COA, batch records summaries or audit support for any Prism API." />
+</Base>
+
+<style>
+  .media { aspect-ratio: 4 / 3; }
+  .tile h3, .card h3 { font-size: 1.15rem; }
+  .steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 800px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+  .steps li { counter-increment: s; background: var(--bg); border-radius: var(--radius); padding: 26px; }
+  .steps li::before { content: counter(s, decimal-leading-zero); display: block; color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
+  .steps h3 { font-size: 1.1rem; }
+  .steps p { margin: 0; }
+</style>

@@ -1,0 +1,111 @@
+---
+import { company } from '../data/site';
+import { url } from '../lib/url';
+
+const year = new Date().getFullYear();
+const columns = [
+  {
+    title: 'Products',
+    links: [
+      { label: 'All API Bulk Drugs', href: '/products/' },
+      { label: 'Quinine Sulphate', href: '/api_bulk_drugs/quinine-sulphate/' },
+      { label: 'Hyoscine Butylbromide', href: '/api_bulk_drugs/hyoscine-butyl-bromide/' },
+      { label: 'Artemether', href: '/api_bulk_drugs/artemether/' },
+      { label: 'Lumefantrine', href: '/api_bulk_drugs/lumefantrine-ip-usp/' },
+      { label: 'Nicotine USP', href: '/api_bulk_drugs/nicotine-usp/' },
+    ],
+  },
+  {
+    title: 'Nicotine',
+    links: [
+      { label: 'Nicotine', href: '/nicotine/' },
+      { label: 'STIC Nicotine', href: '/stic-nicotine/' },
+      { label: 'SIF Strategy', href: '/sif-strategy/' },
+      { label: 'Traceability', href: '/traceability/' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'Our Company', href: '/company/' },
+      { label: 'About Us', href: '/about-us/' },
+      { label: 'Services', href: '/services/' },
+      { label: 'CSR', href: '/csr/' },
+      { label: 'Our Policies', href: '/our-policies/' },
+      { label: 'Gallery', href: '/gallery/' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Blog', href: '/blog/' },
+      { label: 'Learning Vault', href: '/learning-vault/' },
+      { label: 'FAQs', href: '/faqs/' },
+      { label: 'Contact Us', href: '/contact-us/' },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="top">
+      <div class="about">
+        <a class="brand" href={url('/')}>
+          <img src={url('/wp-content/uploads/2024/12/cropped-favicon-192x192.png')} alt="" width="32" height="32" loading="lazy" />
+          <span>{company.name}</span>
+        </a>
+        <p>
+          A WHO-GMP certified manufacturer and exporter of Active Pharmaceutical Ingredients, intermediates and specialty
+          chemicals. Since 1993, we have supplied USP, EP, BP and IP grade APIs from our plant in Khambhat, Gujarat to
+          pharmaceutical companies across Asia, Africa, the Middle East, Europe and the Americas.
+        </p>
+        <ul class="contact">
+          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+          <li><a href={`tel:${company.phoneIntl}`}>+91 {company.phone}</a></li>
+        </ul>
+      </div>
+      {
+        columns.map((col) => (
+          <div class="col">
+            <h2>{col.title}</h2>
+            <ul>
+              {col.links.map((l) => (
+                <li>
+                  <a href={url(l.href)}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="bottom">
+      <p>Copyright © {year} {company.name}. All rights reserved.</p>
+      <ul class="legal">
+        <li><a href={url('/privacy-policy/')}>Privacy Policy</a></li>
+        <li><a href={url('/cookie-policy/')}>Cookie Policy</a></li>
+        {company.social.map((s) => <li><a href={s.href} target="_blank" rel="noopener">{s.name}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--bg-alt); color: var(--muted); font-size: 0.8125rem; line-height: 1.5; padding: 48px 0 28px; border-top: 1px solid var(--line-soft); }
+  .top { display: grid; gap: 32px; grid-template-columns: repeat(2, 1fr); padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+  .about { grid-column: 1 / -1; max-width: 460px; }
+  @media (min-width: 900px) { .top { grid-template-columns: 2fr repeat(4, 1fr); } .about { grid-column: auto; } }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; font-size: 0.95rem; margin-bottom: 12px; text-decoration: none; }
+  .brand img { border-radius: 7px; }
+  .about p { margin-bottom: 12px; }
+  h2 { font-size: 0.8125rem; font-weight: 600; color: var(--text); letter-spacing: -0.005em; margin-bottom: 10px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { margin: 0 0 8px; }
+  a { color: var(--text-2); }
+  .contact a { color: var(--link); }
+  .bottom { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; padding-top: 18px; }
+  .bottom p { margin: 0; }
+  .legal { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .legal li { margin: 0; }
+</style>

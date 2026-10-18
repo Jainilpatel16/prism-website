@@ -1,0 +1,151 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const services = [
+  {
+    t: 'High-quality API manufacturing',
+    lead: 'Small batches or large-scale deliveries — top-notch standards at every stage.',
+    items: [
+      ['Good Manufacturing Practices', 'Processes aligned with global regulations for consistent product quality.'],
+      ['Efficient plant operations', 'Modern reactors and filtration systems for adaptable, dependable production.'],
+      ['Stringent quality control', 'Every batch tested for purity, potency and safety.'],
+    ],
+  },
+  {
+    t: 'Analytical & regulatory support',
+    lead: 'Bringing a new API to market takes more than manufacturing.',
+    items: [
+      ['Comprehensive analytical services', 'HPLC analysis, impurity profiling, stability testing and method validation.'],
+      ['Regulatory preparedness', 'Full CTD modules — data summaries, safety guidelines and manufacturing descriptions — for local and global submissions.'],
+    ],
+  },
+  {
+    t: 'Contract manufacturing & scale-up',
+    lead: 'Looking to outsource or boost capacity? We’re here to help.',
+    items: [
+      ['Flexible production runs', 'Accurate, scalable output, from small trials to multi-ton volumes.'],
+      ['Seamless tech transfers', 'We move your process into our facility with detailed timelines and quality tracking.'],
+      ['Timely delivery', 'Logistics, documentation and scheduling handled so APIs arrive when and where needed.'],
+    ],
+  },
+  {
+    t: 'Sustainability & safe practices',
+    lead: 'Doing things the right way — for people and the planet.',
+    items: [
+      ['Eco-friendly manufacturing', 'Cutting waste and making the most of resources.'],
+      ['Workplace safety', 'Clean, well-managed facilities meeting international safety standards.'],
+      ['Ethical sourcing', 'Traceability and responsible supplier partnerships.'],
+    ],
+  },
+  {
+    t: 'Technical collaboration & consultation',
+    lead: 'Not just producers — your partners in R&D.',
+    items: [
+      ['Feasibility studies', 'Assessing the technical and economic aspects of your project.'],
+      ['Optimisation projects', 'Improving yields and reducing impurities in existing processes.'],
+      ['Ongoing partnership', 'Reformulation, extended stability data and supply-chain advice.'],
+    ],
+  },
+  {
+    t: 'Global supply & market access',
+    lead: 'Secure, efficient delivery to clients around the globe.',
+    items: [
+      ['Export-ready compliance', 'Country-specific labelling, documentation and customs approvals.'],
+      ['Reliable logistics', 'Trusted shipping partners deliver safely and on schedule.'],
+      ['Market expansion support', 'Regulatory filings and local market strategies for faster launches.'],
+    ],
+  },
+];
+const why = [
+  ['A trusted partner', 'Years of experience in the global pharmaceutical industry to tackle complex challenges with confidence.'],
+  ['Uncompromising quality', 'Thorough testing and GMP-certified processes make every batch reliable.'],
+  ['Adaptable & transparent', 'Flexibility for new formulas or last-minute orders, with predictable pricing and clear timelines.'],
+  ['Full-service support', 'Clear, proactive communication from first consultation to documentation and delivery.'],
+];
+---
+
+<Base title="Services" description="API bulk drug manufacturing, specialty chemicals, custom API development, analytical and regulatory support, contract manufacturing and global supply from Prism Industries.">
+  <PageHero
+    eyebrow="Services"
+    title="From idea to market — reliably."
+    lead="We produce and supply high-quality Active Pharmaceutical Ingredients in bulk, with services that support pharmaceutical manufacturers, research institutions and biotech companies."
+    crumbs={[{ label: 'Company', href: '/company/' }, { label: 'Services' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="grid grid-2">
+        <a class="feature card" href={url('/products/')}>
+          <img src={url('/wp-content/uploads/2024/12/api-bulk-600x600-1.jpg')} alt="API bulk drugs" loading="lazy" />
+          <div>
+            <h3>API Bulk Drugs</h3>
+            <p class="muted">The API is what makes a product a medicine — for instance, Quinine is the API in antimalarial drugs. Combination drugs combine APIs to treat different symptoms and illnesses.</p>
+            <span class="link-arrow">View products</span>
+          </div>
+        </a>
+        <div class="feature card">
+          <img src={url('/wp-content/uploads/2024/12/speciality-chemicals-600x600-1.jpg')} alt="Specialty chemicals" loading="lazy" />
+          <div>
+            <h3>Specialty Chemicals</h3>
+            <p class="muted">Materials used for their performance or function — also called “performance” or “formulation” chemicals — including 8-Hydroxyquinoline, Mucic Acid and 5-Nitrophthalic Acid.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Custom API development &amp; formulation</span>
+        <h2>APIs tailored to your project.</h2>
+        <p class="lead">Whether you’re working on a new drug or improving an existing formulation, our team partners with you from initial idea to a specification ready for regulatory approval.</p>
+      </div>
+      <ul class="check-list">
+        <li><strong>Early R&amp;D:</strong> we understand your objectives and suggest API candidates optimised for safety, effectiveness and manufacturability.</li>
+        <li><strong>Pilot to full scale:</strong> methods validated in our pilot labs for a seamless transition to commercial supply.</li>
+        <li><strong>Documentation:</strong> stability data, analytical validation and manufacturing protocols — ready for submission and audit.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        {
+          services.map((s) => (
+            <div class="card svc">
+              <h3>{s.t}</h3>
+              <p class="muted">{s.lead}</p>
+              <dl>{s.items.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}</dl>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Why Prism</span><h2>Why choose Prism Industries?</h2></div>
+      <div class="grid grid-4">{why.map(([t, d]) => <div class="tile"><h3>{t}</h3><p class="muted">{d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <ContactCTA title="Launch your products — reliably and responsibly." text="Custom development, manufacturing, analysis, regulatory compliance and global delivery. Tell us what you need." />
+</Base>
+
+<style>
+  .feature { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center; }
+  @media (min-width: 560px) { .feature { grid-template-columns: 160px 1fr; } }
+  .feature img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-sm); }
+  .svc h3 { font-size: 1.2rem; }
+  .svc dl { margin: 16px 0 0; display: grid; gap: 12px; }
+  .svc dt { font-weight: 600; font-size: 0.95rem; }
+  .svc dd { margin: 2px 0 0; color: var(--muted); font-size: 0.92rem; }
+  .tile h3 { font-size: 1.1rem; }
+  @media (max-width: 699px) { .grid-4 { grid-template-columns: 1fr; } }
+</style>

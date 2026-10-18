@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { company } from '../data/site';
+import { url } from '../lib/url';
+
+const faqs: [string, string][] = [
+  ['What is the minimum order quantity (MOQ)?', 'MOQs vary by product: Active Pharmaceutical Ingredients from 1 kg; excipients from 5 kg; finished dosage forms from 1,000 units. Custom orders are assessed case by case.'],
+  ['What payment methods do you accept?', 'Bank transfers in EUR, USD and GBP, credit/debit cards (Visa, MasterCard) and PayPal for international transactions.'],
+  ['Are you a manufacturer or a reseller?', 'Prism Industries is a dedicated manufacturer. We control the entire production process at our WHO-GMP certified plant in Khambhat, Gujarat to ensure the highest standards of quality and safety.'],
+  ['Do you offer products to private customers?', 'We primarily serve business clients in the pharmaceutical, biotech and healthcare industries.'],
+  ['Do you offer non-standard products and packaging?', 'Yes. We provide tailored products and packaging to meet your specific needs — contact our sales team to discuss custom options, including custom synthesis and white-label production.'],
+  ['When will my order be shipped?', 'Standard products typically ship within 1–2 business days after payment confirmation. Lead times for custom orders depend on complexity and are confirmed during ordering.'],
+  ['Where can I find product documentation?', 'Certificates of Analysis (COA) and Material Safety Data Sheets (MSDS) are linked on each product page. GMP certificates, stability data, DMF support and other regulatory documents are available on request.'],
+  ['Do you provide regulatory support?', 'Yes. Our regulatory affairs team assists with compliance, documentation (including CTD modules) and navigating pharmaceutical regulations across regions.'],
+  ['Which pharmacopoeial grades do you supply?', 'Depending on the product, we supply USP, EP (Ph. Eur.), BP and IP grades, as well as pharmaceutical intermediates (PH INT).'],
+  ['Can I track my order?', 'Yes — once your order ships, we send tracking details by email.'],
+];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+---
+
+<Base title="FAQs" description="Answers to common questions about ordering APIs from Prism Industries: MOQ, payment, shipping, documentation, pharmacopoeial grades and regulatory support." jsonLd={jsonLd}>
+  <PageHero eyebrow="FAQ" title="Frequently asked questions." lead="Answers to the most common questions about our products, services and processes." crumbs={[{ label: 'FAQs' }]} />
+  <section class="section-tight alt">
+    <div class="container container-narrow">
+      <div class="faq">{faqs.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div>
+      <p class="center muted more">Didn’t find your answer? Email <a href={`mailto:${company.email}`}>{company.email}</a> or <a href={url('/contact-us/')}>send an inquiry</a>.</p>
+    </div>
+  </section>
+  <ContactCTA />
+</Base>
+
+<style>
+  .more { margin-top: 28px; }
+</style>

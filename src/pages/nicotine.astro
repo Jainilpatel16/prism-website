@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const nicotine = (await getCollection('products', ({ data }) => data.category === 'nicotine')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const goals = [
+  { t: 'Carbon neutrality', d: 'Reducing our carbon footprint through energy efficiency, renewable energy sources and sustainable transportation.' },
+  { t: 'Zero waste', d: 'Diverting waste from landfill, with a focus on recycling and reusing materials across our operations.' },
+  { t: 'Sustainable sourcing', d: 'Raw materials sourced responsibly, from suppliers who uphold high environmental and ethical standards.' },
+  { t: 'Water conservation', d: 'Minimising water usage across our operations and continuously improving water management.' },
+];
+const practices = [
+  { t: 'Eco-friendly manufacturing', d: 'Energy-efficient production methods, renewable energy wherever possible and minimal process emissions.' },
+  { t: 'Green logistics', d: 'Distribution optimised for fuel efficiency, with reduced transport emissions and sustainable packaging.' },
+  { t: 'Product innovation', d: 'Developing products and processes that use biodegradable, recyclable or renewable materials.' },
+  { t: 'Waste reduction', d: 'Continuous innovation to minimise waste generation and recycle materials within our processes.' },
+];
+const sub = [
+  { href: '/stic-nicotine/', t: 'STIC Nicotine', d: 'Sustainability, Traceability, Integrity and Compliance in nicotine manufacturing.' },
+  { href: '/sif-strategy/', t: 'SIF Strategy', d: 'Our Sustainable Innovation Framework and ESG commitments.' },
+  { href: '/traceability/', t: 'Traceability', d: 'End-to-end batch traceability from raw material to delivery.' },
+];
+---
+
+<Base title="Pharmaceutical Nicotine" description="Prism Industries manufactures high-purity pharmaceutical nicotine and nicotine salts to USP/EP — with a firm commitment to sustainable development, traceability and compliance.">
+  <PageHero
+    eyebrow="Nicotine"
+    title="Pharmaceutical nicotine, made responsibly."
+    lead="At Prism, sustainability is not a buzzword — it is how we do business. Our commitment to sustainable development is rooted in creating solutions that promote long-term environmental and social well-being."
+    crumbs={[{ label: 'Nicotine' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="grid grid-3">
+        {sub.map((s) => <a class="card sub" href={url(s.href)}><h3>{s.t}</h3><p class="muted">{s.d}</p><span class="link-arrow">Learn more</span></a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div class="media"><img src={url('/wp-content/uploads/2024/12/Our-Sustainability.jpg')} alt="Sustainable manufacturing at Prism Industries" loading="lazy" /></div>
+      <div>
+        <span class="eyebrow">Our sustainability goals</span>
+        <h2>Clear, measurable goals.</h2>
+        <p class="lead">Our sustainability strategy is built around goals that reduce our environmental impact while promoting innovation and ethical business practices.</p>
+        <dl class="list">
+          {goals.map((g) => <div><dt>{g.t}</dt><dd>{g.d}</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split reverse">
+      <div class="media"><img src={url('/wp-content/uploads/2024/12/Sustainable-Practices.jpg')} alt="Sustainable practices in API production" loading="lazy" /></div>
+      <div>
+        <span class="eyebrow">Sustainable practices</span>
+        <h2>Built into every step.</h2>
+        <p class="lead">Prism integrates sustainability into every aspect of its business — and measures it. We track KPIs for energy use, emissions, waste and water consumption to continuously improve.</p>
+        <dl class="list">
+          {practices.map((g) => <div><dt>{g.t}</dt><dd>{g.d}</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Nicotine APIs</span>
+        <h2>Our nicotine portfolio.</h2>
+        <p class="lead">Pure nicotine and nicotine salts manufactured to USP / EP for nicotine replacement therapy and pharmaceutical applications.</p>
+      </div>
+      <div class="grid grid-3">{nicotine.map((p) => <ProductCard product={p} />)}</div>
+    </div>
+  </section>
+
+  <ContactCTA title="Join us in our sustainability journey." text="Partner with a nicotine manufacturer that takes quality, traceability and responsibility seriously." />
+</Base>
+
+<style>
+  .sub h3 { font-size: 1.2rem; }
+  .list { margin: 24px 0 0; display: grid; gap: 16px; }
+  .list dt { font-weight: 600; color: var(--text); }
+  .list dd { margin: 2px 0 0; color: var(--muted); }
+  .media { aspect-ratio: 4 / 3; }
+</style>

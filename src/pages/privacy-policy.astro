@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { company } from '../data/site';
+import { url } from '../lib/url';
+---
+
+<Base title="Privacy Policy" description="How Prism Industries Pvt. Ltd. collects, uses and protects personal data submitted through prisminltd.com.">
+  <PageHero eyebrow="Legal" title="Privacy Policy." crumbs={[{ label: 'Privacy Policy' }]} />
+  <section class="section-tight">
+    <div class="container container-narrow prose">
+      <h2>Who we are</h2>
+      <p>The data controller for this website is <strong>{company.name}</strong>, {company.factory.lines.join(' ')}. You can contact us at <a href={`mailto:${company.email}`}>{company.email}</a> or +91 {company.phone}.</p>
+
+      <h2>What we collect</h2>
+      <p>When you submit our inquiry form or email us, we collect the information you provide — such as your name, company, email address, phone number, country and the details of your inquiry.</p>
+
+      <h2>How we use it</h2>
+      <ul>
+        <li>To respond to inquiries, prepare quotations and send requested documents or samples</li>
+        <li>To conclude and perform contracts and orders, including delivery</li>
+        <li>To meet legal obligations, including tax and accounting requirements</li>
+        <li>To pursue our legitimate business interests, such as maintaining customer relationships</li>
+      </ul>
+
+      <h2>Sharing</h2>
+      <p>We do not sell personal data. We share it only with service providers who help us operate (for example Formspree, which processes form submissions, and logistics partners for deliveries), or where required by law.</p>
+
+      <h2>Retention</h2>
+      <p>We keep personal data only as long as necessary for the purposes above or as required by law, after which it is deleted.</p>
+
+      <h2>Your rights</h2>
+      <p>Subject to applicable law (including India’s Digital Personal Data Protection Act, 2023 and, where relevant, the EU GDPR), you may request access to, correction of or deletion of your personal data, or withdraw consent, by emailing <a href={`mailto:${company.email}`}>{company.email}</a>.</p>
+
+      <h2>More information</h2>
+      <p>See also our <a href={url('/cookie-policy/')}>Cookie Policy</a> and our <a href={url('/wp-content/uploads/2025/03/Privacy-and-Data-Protection-Policy.pdf')} target="_blank" rel="noopener">Privacy and Data Protection Policy (PDF)</a>.</p>
+    </div>
+  </section>
+</Base>

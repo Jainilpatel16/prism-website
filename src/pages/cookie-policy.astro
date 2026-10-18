@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { company } from '../data/site';
+---
+
+<Base title="Cookie Policy" description="How Prism Industries uses cookies and similar technologies on prisminltd.com.">
+  <PageHero eyebrow="Legal" title="Cookie Policy." crumbs={[{ label: 'Cookie Policy' }]} />
+  <section class="section-tight">
+    <div class="container container-narrow prose">
+      <p>This Cookie Policy explains how {company.name} (“Prism”, “we”) uses cookies and similar technologies on prisminltd.com (the “Site”).</p>
+      <h2>What are cookies?</h2>
+      <p>Cookies are small files stored on your device that help improve your experience. They allow us to understand usage patterns, optimise content and enhance functionality.</p>
+      <h2>Cookies we use</h2>
+      <p>This website is a static site and does not set its own tracking or advertising cookies. Some third-party services we rely on may set cookies or collect technical data:</p>
+      <ul>
+        <li><strong>Google Fonts</strong> — delivers the typefaces used on this site.</li>
+        <li><strong>Formspree</strong> — processes messages sent through our inquiry form.</li>
+        <li><strong>Hosting provider</strong> — may log standard technical information (such as IP address and browser type) for security and performance.</li>
+      </ul>
+      <h2>Managing cookies</h2>
+      <p>You can manage or delete cookies through your browser settings. Disabling cookies may limit some features of third-party services.</p>
+      <h2>Contact us</h2>
+      <p>For questions about this policy, contact us at <a href={`mailto:${company.email}`}>{company.email}</a>.</p>
+    </div>
+  </section>
+</Base>

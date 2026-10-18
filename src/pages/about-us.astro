@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CertStrip from '../components/CertStrip.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const portfolio = [
+  ['Antimalarial APIs', 'Quinine Sulphate, Quinine Bisulphate and other Cinchona alkaloids'],
+  ['Antispasmodics', 'Hyoscine Butylbromide and Hyoscine Hydrobromide'],
+  ['Cardiac & other APIs', 'Digoxin, Quinidine Sulphate, Artemether and Lumefantrine IP/USP'],
+  ['Specialty chemicals', '8-Hydroxyquinoline, Mucic Acid, 5-Nitrophthalic Acid and more'],
+];
+const reasons = [
+  { t: 'Experience', d: 'Decades in the pharmaceutical sector. Our seasoned team anticipates challenges, delivers consistent quality and guides innovations that work.', icon: 'quality.png' },
+  { t: 'Equipment', d: 'Cutting-edge machinery and advanced analytical tools ensure precision at every step, from scalable production lines to robust quality labs.', icon: 'lab-equipment.png' },
+  { t: 'Creativity', d: 'Whether devising a new delivery format or refining a complex formulation, we bring fresh thinking that unlocks real solutions.', icon: 'design-thinking.png' },
+  { t: 'Reliability', d: 'Consistent APIs, delivered on schedule, batch after batch. No surprises — just dependable performance.', icon: 'dependable.png' },
+  { t: 'Stability', d: 'Strong financial footing and ethical practices make us a stable partner built for long-term commitments.', icon: 'stability.png' },
+  { t: 'Support', d: 'From regulatory documentation to formulation troubleshooting, our team walks with you every step of the way.', icon: 'support.png' },
+];
+---
+
+<Base title="About Us" description="Founded in 1993 in Khambhat, Gujarat, Prism Industries is a WHO-GMP, GLP and ISO certified API manufacturer serving pharmaceutical companies across Asia, Europe, Africa and the Americas.">
+  <PageHero
+    eyebrow="About Us"
+    title="Trust is rare. We deliver it every day."
+    lead="APIs on time, quality assured, value always fair — and expertise that turns your needs into lasting success, from concept to completion."
+    crumbs={[{ label: 'Company', href: '/company/' }, { label: 'About Us' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Our journey</span>
+        <h2>A rich legacy in API manufacturing.</h2>
+        <p class="lead">Founded in 1993 in Khambhat, Gujarat, Prism Industries began as an ambitious venture with one goal: to excel in API manufacturing.</p>
+        <p>What began modestly has grown into a globally recognised pharmaceutical company, trusted by leading healthcare brands. With a strong emphasis on innovation, quality and compliance, we have adopted modern manufacturing technologies, built state-of-the-art facilities and met global regulatory standards — reaching markets across Asia, Europe, Africa and the Americas.</p>
+        <p>Over three decades, Prism has earned a reputation for reliability, technical know-how and ethical practice — from antimalarial APIs to complex antispasmodics and specialty chemicals.</p>
+      </div>
+      <div class="media"><img src={url('/wp-content/uploads/2025/07/KVP_8676-scaled.jpg')} alt="Prism Industries leadership in the manufacturing plant" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="grid grid-3">
+        <div class="card"><span class="eyebrow">Vision</span><p>To be the leading brand in pharmaceutical API manufacturing, setting the bar high for quality, innovation and reliability.</p></div>
+        <div class="card"><span class="eyebrow">Mission</span><p>To realise our vision through smart investment in infrastructure, technology and people — so every product meets the highest global standards for safety and effectiveness.</p></div>
+        <div class="card"><span class="eyebrow">Core values</span><p>Integrity, Quality, Customer Focus, Innovation and Sustainability in everything we do.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Certifications</span>
+        <h2>Quality and compliance at the core.</h2>
+        <p class="lead">Our credentials reflect a steadfast dedication to rigorous global standards throughout the pharmaceutical supply chain.</p>
+      </div>
+      <div class="cert-wrap"><CertStrip variant="grid" /></div>
+      <p class="center muted small note">Certificates and regulatory documents are available to customers on request.</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split reverse">
+      <div>
+        <span class="eyebrow">Portfolio</span>
+        <h2>A diverse, high-quality product line.</h2>
+        <p class="lead">From pilot-scale R&amp;D labs to full-scale manufacturing, our Gujarat facilities are built for scalable, compliant API production.</p>
+        <dl class="list">{portfolio.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}</dl>
+        <p>We produce both pharmaceutical-grade products and fine chemicals for industrial uses, and serve customers in Asia, Africa, the Middle East, Europe and the Americas.</p>
+        <a class="btn btn-primary" href={url('/products/')}>View all products</a>
+      </div>
+      <div class="media"><img src={url('/wp-content/uploads/2025/07/KVP_8611-scaled.jpg')} alt="Finished API samples at Prism Industries" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        <div class="tile">
+          <h3>Quality assurance &amp; regulatory support</h3>
+          <p class="muted">Every product is thoroughly tested — from raw-material selection to finished API — using modern analytical methods. Our documentation includes Certificates of Analysis, Safety Data Sheets, Drug Master Files and dossiers prepared for global regulatory submissions.</p>
+        </div>
+        <div class="tile">
+          <h3>Sustainability &amp; responsible manufacturing</h3>
+          <p class="muted">Our <a href={url('/sif-strategy/')}>Sustainable Innovation Framework (SIF)</a> covers efficient waste management, green chemistry, optimised energy use, ethical sourcing and eco-conscious packaging.</p>
+        </div>
+        <div class="tile">
+          <h3>Client-centric approach</h3>
+          <ul class="check-list">
+            <li>Flexible order sizes — R&amp;D to full commercial batches</li>
+            <li>Custom packaging and labelling</li>
+            <li>Dedicated regulatory and technical support</li>
+            <li>Timely delivery through efficient logistics</li>
+          </ul>
+        </div>
+        <div class="tile">
+          <h3>Community &amp; leadership</h3>
+          <p class="muted">Our responsibilities go beyond business: we support education and local health initiatives through our <a href={url('/csr/')}>CSR programme</a>. Our Gujarat-based leadership combines local knowledge with a global perspective.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Why Prism</span><h2>Reasons to choose us.</h2></div>
+      <div class="grid grid-3">
+        {reasons.map((r) => <div class="card reason"><img src={url(`/wp-content/uploads/2024/12/${r.icon}`)} alt="" width="44" height="44" loading="lazy" /><h3>{r.t}</h3><p class="muted">{r.d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA title="Discover how Prism can enhance your formulations." text="Reliability, compliance and excellence in pharmaceutical sourcing — let's talk." />
+</Base>
+
+<style>
+  .media { aspect-ratio: 4 / 3; }
+  .card .eyebrow { margin-bottom: 0.4rem; }
+  .card p { font-size: 1.05rem; color: var(--text-2); }
+  .list { margin: 20px 0; display: grid; gap: 14px; }
+  .list dt { font-weight: 600; }
+  .list dd { margin: 2px 0 0; color: var(--muted); }
+  .note { margin-top: 20px; }
+  .tile h3 { font-size: 1.15rem; }
+  .reason img { width: 44px; height: 44px; object-fit: contain; margin-bottom: 14px; }
+</style>

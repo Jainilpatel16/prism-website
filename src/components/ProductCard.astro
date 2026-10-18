@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { productCategories } from '../data/site';
+import { url } from '../lib/url';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+  showDocs?: boolean;
+}
+const { product, showDocs = true } = Astro.props;
+const d = product.data;
+---
+
+<article class="product" data-category={d.category} data-name={d.title.toLowerCase()}>
+  <a class="main" href={url(`/api_bulk_drugs/${product.id}/`)}>
+    <div class="tags">
+      <span class="badge">{productCategories[d.category].short}</span>
+      {d.grade && <span class="badge badge-blue">{d.grade}</span>}
+    </div>
+    <h3>{d.title}</h3>
+    <dl>
+      {d.cas && (<><dt>CAS</dt><dd>{d.cas}</dd></>)}
+      {d.formula && (<><dt>Formula</dt><dd>{d.formula}</dd></>)}
+    </dl>
+    <span class="more">View specifications</span>
+  </a>
+  {
+    showDocs && (d.coa || d.msds) && (
+      <div class="docs">
+        {d.coa && <a href={url(d.coa)} target="_blank" rel="noopener">COA <span class="sr-only">(PDF)</span></a>}
+        {d.msds && <a href={url(d.msds)} target="_blank" rel="noopener">MSDS <span class="sr-only">(PDF)</span></a>}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .product { background: var(--bg); border-radius: var(--radius); box-shadow: var(--shadow); display: flex; flex-direction: column; transition: box-shadow 0.25s, transform 0.25s; }
+  .product:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .main { display: flex; flex-direction: column; flex: 1; padding: 24px 24px 20px; color: inherit; text-decoration: none; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  h3 { font-size: 1.2rem; margin-bottom: 10px; }
+  dl { margin: 0 0 16px; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 0.85rem; }
+  dt { color: var(--muted); }
+  dd { margin: 0; color: var(--text-2); font-variant-numeric: tabular-nums; word-break: break-word; }
+  .more { margin-top: auto; color: var(--link); font-size: 0.9rem; font-weight: 500; }
+  .more::after { content: ' ›'; }
+  .docs { display: flex; gap: 8px; padding: 0 24px 22px; }
+  .docs a { font-size: 0.8rem; font-weight: 600; padding: 5px 12px; border-radius: 980px; border: 1px solid var(--line); color: var(--text-2); text-decoration: none; }
+  .docs a:hover { border-color: var(--accent); color: var(--accent); }
+</style>

@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const pillars = [
+  {
+    t: 'Environmental sustainability',
+    items: [
+      'Ecological sourcing from ethical farms using sustainable agriculture',
+      'Renewable energy, including solar and wind power',
+      'Strict waste management and by-product repurposing',
+      'Advanced filtration and recycling to conserve water',
+    ],
+  },
+  {
+    t: 'Social responsibility',
+    items: [
+      'Employee welfare: safe working conditions, fair wages and professional growth',
+      'Diversity and inclusion with equal opportunities for all',
+      'Community engagement through health, education and local development',
+      'Ethical supply chain with fair labour and sustainable farming',
+    ],
+  },
+  {
+    t: 'Governance & ethics',
+    items: [
+      'Transparent operations aligned with international regulations',
+      'Continuous auditing of internal processes',
+      'Strict anti-fraud, anti-bribery and anti-corruption policies',
+      'Open communication with investors, employees and customers',
+    ],
+  },
+];
+const innovations = [
+  ['Carbon-neutral manufacturing', 'Adding cleaner energy sources on the path to net-zero emissions.'],
+  ['Green chemistry', 'Eco-friendly solvents and production methods that minimise toxic waste.'],
+  ['Sustainable packaging', 'Biodegradable and recyclable materials to eliminate plastic waste.'],
+  ['Green technology', 'Automation and smart monitoring to improve energy efficiency.'],
+];
+const faqs = [
+  ['What is Prism’s commitment to sustainability?', 'Sustainability is at the core of what we do: reducing our environmental footprint, supporting social well-being and adhering to ethical governance. We work towards carbon neutrality, waste reduction and responsible sourcing while fostering an inclusive, transparent business culture.'],
+  ['How does Prism ensure sustainable nicotine production?', 'We reduce energy consumption, minimise waste and use sustainable raw materials. Our processes are continuously optimised for efficiency, we invest in renewable energy, and we partner with suppliers who share our commitment.'],
+  ['What environmental goals does Prism have in place?', 'Carbon neutrality, zero waste in production through recycling and repurposing, water conservation across operations, and sustainable sourcing of ethically obtained raw materials.'],
+  ['How does Prism ensure transparency?', 'Transparency is a key pillar of our governance. We report on our environmental impact, social contributions and governance practices, and hold ourselves accountable to high standards of corporate governance.'],
+  ['What is Prism’s approach to ethical sourcing?', 'We work with suppliers who meet strict environmental, social and ethical standards, ensuring all materials — including nicotine and packaging — are responsibly sourced.'],
+  ['Does Prism track its ESG performance?', 'Yes. We track ESG metrics for energy consumption, carbon emissions, waste management and social impact, regularly assessing progress and setting new goals.'],
+];
+---
+
+<Base title="SIF Strategy — Sustainable Innovation Framework" description="Prism's Sustainable Innovation Framework (SIF): our ESG strategy for environmental stewardship, social responsibility and ethical governance in API and nicotine manufacturing.">
+  <PageHero
+    eyebrow="SIF Strategy"
+    title="Leading with responsibility and innovation."
+    lead="Our Sustainable Innovation Framework integrates Environmental, Social and Governance (ESG) principles into every aspect of our business — a roadmap to a sustainable future built on responsible practices, transparency and long-term value for all stakeholders."
+    crumbs={[{ label: 'Nicotine', href: '/nicotine/' }, { label: 'SIF Strategy' }]}
+  />
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="grid grid-3">
+        {pillars.map((p) => <div class="card"><h3>{p.t}</h3><ul class="check-list">{p.items.map((i) => <li>{i}</li>)}</ul></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container split">
+      <div class="media"><img src={url('/wp-content/uploads/2024/12/inside-gr.jpg')} alt="Prism's vision for a sustainable future" loading="lazy" /></div>
+      <div>
+        <span class="eyebrow">Our vision</span>
+        <h2>A sustainable future, by design.</h2>
+        <p class="lead">By integrating ESG principles into our operations we aim to drive meaningful change within our industry, empower communities to thrive, and protect the planet for generations to come.</p>
+        <ul class="check-list">
+          <li>Reduces carbon footprint through energy-efficient manufacturing</li>
+          <li>Conserves natural resources with sustainable water and waste systems</li>
+          <li>Builds trust with customers who prioritise responsible suppliers</li>
+          <li>Drives innovation that optimises production while minimising harm</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Innovation</span><h2>Innovating for a greener tomorrow.</h2></div>
+      <div class="grid grid-4">
+        {innovations.map(([t, d]) => <div class="tile"><h3>{t}</h3><p class="muted">{d}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container container-narrow">
+      <div class="section-head"><span class="eyebrow">FAQ</span><h2>Frequently asked questions.</h2></div>
+      <div class="faq">
+        {faqs.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA title="Partner with Prism." text="Choose a supplier that balances business growth with social and environmental progress." />
+</Base>
+
+<style>
+  .media { aspect-ratio: 4 / 3; }
+  .tile h3 { font-size: 1.1rem; }
+  @media (max-width: 699px) { .grid-4 { grid-template-columns: 1fr; } }
+</style>

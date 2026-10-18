@@ -1,0 +1,30 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PostCard from '../../components/PostCard.astro';
+import { blogCategories } from '../../data/site';
+import { url } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const cats = [...new Set(posts.flatMap((p) => p.data.categories))];
+  return cats.map((c) => ({ params: { slug: c }, props: { posts: posts.filter((p) => p.data.categories.includes(c)) } }));
+}
+
+interface Props { posts: CollectionEntry<'blog'>[] }
+const { posts } = Astro.props;
+const { slug } = Astro.params;
+const name = blogCategories[slug!] ?? slug;
+---
+
+<Base title={`${name} Articles`} description={`Articles about ${name} from Prism Industries — API manufacturing, quality and regulatory insights.`}>
+  <PageHero eyebrow="Blog category" title={`${name}.`} lead={`${posts.length} article${posts.length === 1 ? '' : 's'}`} crumbs={[{ label: 'Blog', href: '/blog/' }, { label: name! }]}>
+    <p><a class="link-arrow" href={url('/blog/')}>All articles</a></p>
+  </PageHero>
+  <section class="section-tight alt">
+    <div class="container">
+      <div class="grid grid-3">{posts.map((p) => <PostCard post={p} />)}</div>
+    </div>
+  </section>
+</Base>

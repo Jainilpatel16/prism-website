@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { url } from '../lib/url';
+
+const B = '/wp-content/uploads/2025/03/';
+const initiatives = [
+  { t: 'Vanvasi Kalyan NGO — 2022', d: 'Donation for health camps, education and community development for tribes in Chhota Udepur, Gujarat.', img: B + 'Screenshot-2025-03-10-at-7.27.48-AM.png' },
+  { t: 'Bhadran Gam Vikas Mandal', d: 'Donation for ESG and village development.', img: B + 'Screenshot-2025-03-10-at-7.28.45-AM.png' },
+  { t: 'Swaminarayan Temple', d: 'Shatabdi Mahotsava Bhet at Swaminarayan Temple.', img: B + 'Screenshot-2025-03-10-at-7.27.21-AM.png' },
+  { t: 'Krishnanagar Primary School', d: 'Donation of lunch boxes and goodies to students.', img: B + 'Screenshot-2025-03-10-at-7.52.06-AM.png' },
+  { t: 'Vanvasi Kalyan NGO — 2021', d: 'Donation for health camps, education and community development for tribes in Chhota Udepur, Gujarat.', img: B + 'Screenshot-2025-03-10-at-7.29.05-AM.png' },
+  { t: 'Gram Panchayat Rusulpura', d: 'Donation for the development of the village.', img: B + 'Screenshot-2025-03-10-at-7.45.12-AM.png' },
+];
+---
+
+<Base title="Corporate Social Responsibility" description="Prism Industries' CSR initiatives: support for health camps, education, temples and village development across Gujarat.">
+  <PageHero
+    eyebrow="CSR"
+    title="Doing good is part of doing business."
+    lead="Our CSR initiatives reflect our core values of integrity, sustainability and community well-being. We operate ethically, contribute to local communities and promote environmental stewardship — creating a lasting, positive difference for future generations."
+    crumbs={[{ label: 'Company', href: '/company/' }, { label: 'CSR' }]}
+  />
+  <section class="section-tight alt">
+    <div class="container">
+      <div class="grid grid-3">
+        {
+          initiatives.map((i) => (
+            <article class="card csr">
+              <div class="img"><img src={url(i.img)} alt={i.t} loading="lazy" /></div>
+              <h3>{i.t}</h3>
+              <p class="muted">{i.d}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <ContactCTA />
+</Base>
+
+<style>
+  .csr { padding: 0; overflow: hidden; }
+  .csr .img { aspect-ratio: 4 / 3; background: var(--bg-alt); }
+  .csr img { width: 100%; height: 100%; object-fit: cover; }
+  .csr h3, .csr p { padding: 0 24px; }
+  .csr h3 { margin-top: 20px; font-size: 1.15rem; }
+  .csr p { padding-bottom: 24px; }
+</style>
